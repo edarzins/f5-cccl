@@ -298,6 +298,10 @@ class CloudBigIP(BigIP):
                     if 'protocol' in hc:
                         cloud_healthcheck_list.append(hc['name'])
 
+
+
+
+
             f5_pool_list = self.get_pool_list(partition)
             f5_virtual_list = self.get_virtual_list(partition)
 
@@ -321,6 +325,11 @@ class CloudBigIP(BigIP):
                     [x for x in f5_pool_list if not x.startswith(iapp)]
                 f5_healthcheck_list = \
                     [x for x in f5_healthcheck_list if not x.startswith(iapp)]
+
+
+
+
+
 
             log_sequence('f5_pool_list', f5_pool_list)
             log_sequence('f5_virtual_list', f5_virtual_list)
@@ -522,6 +531,7 @@ class CloudBigIP(BigIP):
         pool_list = []
         pools = self.ltm.pools.get_collection()
         for pool in pools:
+            print pool
             if pool.partition == partition:
                 pool_list.append(pool.name)
         return pool_list
@@ -701,6 +711,7 @@ class CloudBigIP(BigIP):
         virtual_list = []
         virtuals = self.ltm.virtuals.get_collection()
         for virtual in virtuals:
+            print virtual
             if virtual.partition == partition:
                 virtual_list.append(virtual.name)
 
