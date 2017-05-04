@@ -311,17 +311,6 @@ class CloudBigIP(BigIP):
             # list returned from the cloud environment
             f5_healthcheck_list = f5_healthcheck_dict.keys()
 
-            # The virtual servers, pools, and health monitors for iApps are
-            # managed by the iApps themselves, so remove them from the lists we
-            # manage
-            for iapp in cloud_iapp_list:
-                f5_virtual_list = \
-                    [x for x in f5_virtual_list if not x.startswith(iapp)]
-                f5_pool_list = \
-                    [x for x in f5_pool_list if not x.startswith(iapp)]
-                f5_healthcheck_list = \
-                    [x for x in f5_healthcheck_list if not x.startswith(iapp)]
-
             log_sequence('f5_pool_list', f5_pool_list)
             log_sequence('f5_virtual_list', f5_virtual_list)
             log_sequence('f5_healthcheck_list', f5_healthcheck_list)
@@ -522,7 +511,9 @@ class CloudBigIP(BigIP):
         pool_list = []
         pools = self.ltm.pools.get_collection()
         for pool in pools:
-            if pool.partition == partition:
+            appService = getattr(pool, 'appService', None)
+            # pool must match partition and not belong to an appService
+            if pool.partition == partition and appService is None:
                 pool_list.append(pool.name)
         return pool_list
 
@@ -701,7 +692,9 @@ class CloudBigIP(BigIP):
         virtual_list = []
         virtuals = self.ltm.virtuals.get_collection()
         for virtual in virtuals:
-            if virtual.partition == partition:
+            appService = getattr(virtual, 'appService', None)
+            # virtual must match partition and not belong to an appService
+            if virtual.partition == partition and appService is None:
                 virtual_list.append(virtual.name)
 
         return virtual_list
@@ -846,13 +839,17 @@ class CloudBigIP(BigIP):
         # HTTP
         healthchecks = self.ltm.monitor.https.get_collection()
         for hc in healthchecks:
-            if hc.partition == partition:
+            appService = getattr(hc, 'appService', None)
+            # hc must match partition and not belong to an appService
+            if hc.partition == partition and appService is None:
                 healthcheck_dict.update({hc.name: {'type': 'http'}})
 
         # TCP
         healthchecks = self.ltm.monitor.tcps.get_collection()
         for hc in healthchecks:
-            if hc.partition == partition:
+            appService = getattr(hc, 'appService', None)
+            # hc must match partition and not belong to an appService
+            if hc.partition == partition and appService is None:
                 healthcheck_dict.update({hc.name: {'type': 'tcp'}})
 
         return healthcheck_dict
