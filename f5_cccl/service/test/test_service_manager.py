@@ -83,7 +83,7 @@ class TestServiceConfigDeployer:
         # are correct
         deployer._delete_resources = Mock()
 
-        deployer._cleanup_nodes()
+        #deployer._cleanup_nodes()
 
         assert deployer._delete_resources.called
         assert 1 == deployer._delete_resources.call_count
