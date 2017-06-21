@@ -38,6 +38,13 @@
       {"name": "server__tcp_lan_opt", "value": "/#create_new#"},
       {"name": "server__oneconnect", "value": "/#create_new#"},
       {"name": "server__ntlm", "value": "/#do_not_use#"}
+    ],
+    "members": [
+      {"address": "1.2.3.4", "port": 30001},
+      {"address": "1.2.3.4", "port": 30002},
+      {"address": "1.2.3.4", "port": 30003},
+      {"address": "1.2.3.4", "port": 30004},
+      {"address": "1.2.3.4", "port": 30005}
     ]
   }],
   "virtualServers": [{

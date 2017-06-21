@@ -30,13 +30,17 @@ class ApplicationService(Resource):
                           'trafficGroup',
                           'deviceGroup'],
                       variables=[],
-                      tables=[])
+                      tables=[],
+                      members=[])
 
     def __init__(self, name, partition, **properties):
         """Create an Application Service instance."""
         super(ApplicationService, self).__init__(name, partition)
 
         for key, value in self.properties.items():
+            if key == "members":
+                self.members = properties.get(key, value)
+                continue
             if key == "options":
                 if key in properties:
                     self._data.update(properties.get(key, value))
@@ -66,6 +70,9 @@ class ApplicationService(Resource):
         for key in self._data:
             if key == "variables" or key == "tables":
                 # already compared
+                continue
+            if key == "members":
+                # don't compare
                 continue
             if self._data[key] != other.data.get(key, None):
                 # FIXME (rtalley): description is overwritten in appsvcs
