@@ -70,6 +70,15 @@ class F5CloudServiceManager(object):
         """
         return self._service_manager.apply_config(services)
 
+    def get_partition(self):
+        """Get the name of the managed partition.
+
+        :return: The managed partition name
+        resource.
+        """
+
+        return self._service_manager._partition
+
     def get_status(self):
         """Get status for each service in the managed partition.
 
