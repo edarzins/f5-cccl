@@ -25,7 +25,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class IRule(Resource):
-    """iRule class."""
+    """iRule class for managing configuration on BIG-IP."""
+
     # The property names class attribute defines the names of the
     # properties that we wish to compare.
     properties = dict(
@@ -35,7 +36,7 @@ class IRule(Resource):
     )
 
     def __init__(self, name, partition, **data):
-        """Create the iRule"""
+        """Create the iRule."""
         super(IRule, self).__init__(name, partition)
 
         self._data['apiAnonymous'] = data.get(
@@ -47,7 +48,7 @@ class IRule(Resource):
         """Check the equality of the two objects.
 
         Only compare the properties as defined in the
-        properties class dictionany.
+        properties class dictionary.
         """
         if not isinstance(other, IRule):
             return False
@@ -58,20 +59,25 @@ class IRule(Resource):
         return True
 
     def __hash__(self):  # pylint: disable=useless-super-delegation
+        """Create a hash value for the object."""
         return super(IRule, self).__hash__()
 
     def _uri_path(self, bigip):
+        """Return the URI path of the BIG-IP object."""
         return bigip.tm.ltm.rules.rule
 
     def __str__(self):
+        """Generate a string representation of the object."""
         return str(self._data)
 
 
 class IcrIRule(IRule):
-    """iRule object created from the iControl REST object"""
+    """iRule object created from the iControl REST object."""
+
     pass
 
 
 class ApiIRule(IRule):
-    """IRule object created from the API configuration object"""
+    """IRule object created from the API configuration object."""
+
     pass

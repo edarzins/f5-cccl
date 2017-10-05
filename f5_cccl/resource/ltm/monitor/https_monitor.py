@@ -28,36 +28,37 @@ LOGGER = logging.getLogger(__name__)
 
 
 class HTTPSMonitor(Monitor):
-    """Creates a CCCL BIG-IP HTTPS Monitor Object of sub-type of Resource
+    """Creates a CCCL BIG-IP HTTPS Monitor Object of sub-type of Resource.
 
     This object hosts the ability to orchestrate basic CRUD actions against a
     BIG-IP HTTPS Monitor via the F5-SDK.
 
     The major difference is the afforded schema for HTTPS specifically.
     """
+
     properties = dict(interval=5,
                       timeout=16,
                       send="GET /\\r\\n",
                       recv="")
 
     def __init__(self, name, partition, **kwargs):
+        """Create a HTTPSMonitor instance."""
         super(HTTPSMonitor, self).__init__(name, partition, **kwargs)
         for key in ['send', 'recv']:
             self._data[key] = kwargs.get(key, self.properties.get(key))
 
     def _uri_path(self, bigip):
-        """Get the URI resource path key for the F5-SDK for HTTPS monitor
-
-        This is the URI reference for an HTTPS Monitor.
-        """
+        """Return the URI path of the BIG-IP object."""
         return bigip.tm.ltm.monitor.https_s.https
 
 
 class ApiHTTPSMonitor(HTTPSMonitor):
     """Create the canonical HTTPS monitor from API input."""
+
     pass
 
 
 class IcrHTTPSMonitor(HTTPSMonitor):
     """Create the canonical HTTPS monitor from iControl REST response."""
+
     pass

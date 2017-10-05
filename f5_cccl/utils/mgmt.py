@@ -14,11 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""Wrapper functions for the f5-sdk"""
+"""Wrapper functions for the f5-sdk."""
 
 from f5.bigip import ManagementRoot
 
 
 def mgmt_root(host, username, password, port, token):
-    """Create a BIG-IP Management Root object"""
+    """Create a BIG-IP Management Root object."""
     return ManagementRoot(host, username, password, port=port, token=token)

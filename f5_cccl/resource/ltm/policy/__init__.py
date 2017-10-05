@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""This module implements the F5 CCCL Resource super class."""
+"""This module implements the F5 CCCL LTM Policy class."""
 
 # Ignore import but unused flake error
 # flake8: noqa

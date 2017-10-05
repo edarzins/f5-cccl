@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""This module implements the F5 CCCL Resource super class."""
+"""This module implements the F5 CCCL LTM Monitor classes."""
 
 
 from .monitor import Monitor  # noqa: F401, F403

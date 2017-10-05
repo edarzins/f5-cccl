@@ -27,7 +27,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Action(Resource):
-    """L7 Rule Action class."""
+    """L7 Rule Action class for managing configuration on BIG-IP."""
+
     # The property names class attribute defines the names of the
     # properties that we wish to compare.
     properties = dict(
@@ -83,7 +84,7 @@ class Action(Resource):
     def __eq__(self, other):
         """Check the equality of the two objects.
 
-        Do a straight data to data comparison.
+        Do a data-to-data comparison as implemented in Resource.
         """
         if not isinstance(other, Action):
             return False
@@ -91,11 +92,13 @@ class Action(Resource):
         return super(Action, self).__eq__(other)
 
     def __str__(self):
+        """Generate a string representation of the object."""
         return str(self._data)
 
     def _uri_path(self, bigip):
-        """Return the URI path of an action object.
+        """Return the URI path of the BIG-IP object.
 
         Not implemented because the current implementation does
-        not manage Actions individually."""
+        not manage Actions individually.
+        """
         raise NotImplementedError

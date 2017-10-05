@@ -12,6 +12,7 @@ python-coveralls==2.7.0
 pyOpenSSL==16.2.0
 requests-mock==1.2.0
 flake8
+flake8-docstrings
 pylint
 netaddr
 q

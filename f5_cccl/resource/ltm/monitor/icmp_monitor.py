@@ -28,26 +28,26 @@ LOGGER = logging.getLogger(__name__)
 
 
 class ICMPMonitor(Monitor):
-    """Creates a CCCL BIG-IP ICMP Monitor Object of sub-type of Resource
+    """Creates a CCCL BIG-IP ICMP Monitor Object of sub-type of Resource.
 
     This object hosts the ability to orchestrate basic CRUD actions against a
     BIG-IP ICMP Monitor via the F5-SDK.
 
     The major difference is the afforded schema for ICMP specifically.
     """
-    def _uri_path(self, bigip):
-        """Get the URI resource path key for the F5-SDK for ICMP monitor
 
-        This is the URI reference for an ICMP Monitor.
-        """
+    def _uri_path(self, bigip):
+        """Return the URI path of the BIG-IP object."""
         return bigip.tm.ltm.monitor.gateway_icmps.gateway_icmp
 
 
 class ApiICMPMonitor(ICMPMonitor):
     """Create the canonical ICMP monitor from the CCCL API input."""
+
     pass
 
 
 class IcrICMPMonitor(ICMPMonitor):
     """Create the canonical ICMP monitor from the iControl REST response."""
+
     pass

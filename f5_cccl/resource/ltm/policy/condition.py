@@ -27,7 +27,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Condition(Resource):
-    """L7 Rule Condition class."""
+    """L7 Rule Condition class for managing configuration on BIG-IP."""
+
     # The property names class attribute defines the names of the
     # properties that we wish to compare.
     properties = {
@@ -60,6 +61,11 @@ class Condition(Resource):
     }
 
     def __init__(self, name, data):
+        """Initialize the Condition object.
+
+        Conditions do not have explicit partition attributes, the are
+        implied by the partition of the rule to which they belong.
+        """
         super(Condition, self).__init__(name, partition=None)
 
         self._data['request'] = True
@@ -117,7 +123,7 @@ class Condition(Resource):
     def __eq__(self, other):
         """Check the equality of the two objects.
 
-        Do a data to data comparison as implemented in Resource.
+        Do a data-to-data comparison as implemented in Resource.
         """
         if not isinstance(other, Condition):
             return False
@@ -125,11 +131,13 @@ class Condition(Resource):
         return super(Condition, self).__eq__(other)
 
     def __str__(self):
+        """Generate a string representation of the object."""
         return str(self._data)
 
     def _uri_path(self, bigip):
-        """Return the URI path of an rule object.
+        """Return the URI path of the BIG-IP object.
 
         Not implemented because the current implementation does
-        not manage Rules individually."""
+        not manage Rules individually.
+        """
         raise NotImplementedError

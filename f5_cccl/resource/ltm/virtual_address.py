@@ -42,15 +42,21 @@ class VirtualAddress(Resource):
             self._data[key] = properties.get(key, value)
 
     def __eq__(self, other):
+        """Check the equality of the two objects.
+
+        Do a data-to-data comparison as implemented in Resource.
+        """
         if not isinstance(other, VirtualAddress):
             return False
 
         return super(VirtualAddress, self).__eq__(other)
 
     def _uri_path(self, bigip):
+        """Return the URI path of the BIG-IP object."""
         return bigip.tm.ltm.virtual_address_s.virtual_address
 
     def update(self, bigip, data=None, modify=False):
+        """Perform an update of the object on BIG-IP."""
         # 'address' is immutable, don't pass it in an update operation
         tmp_data = deepcopy(data) if data is not None else deepcopy(self.data)
         tmp_data.pop('address', None)
@@ -58,10 +64,12 @@ class VirtualAddress(Resource):
 
 
 class IcrVirtualAddress(VirtualAddress):
-    """Filter the iControl REST input to create the canonical representation"""
+    """Create the canonical VirtualAddress from iControl REST response."""
+
     pass
 
 
 class ApiVirtualAddress(VirtualAddress):
-    """Filter the CCCL API input to create the canonical representation"""
+    """Create the canonical VirtualAddressr from API input."""
+
     pass

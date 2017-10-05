@@ -28,14 +28,19 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Monitor(Resource):
-    """Creates a CCCL BIG-IP Monitor Object of sub-type of Resource
+    """Creates a CCCL BIG-IP Monitor Object of sub-type of Resource.
 
     This object hosts the ability to orchestrate basic CRUD actions against a
     BIG-IP Monitor via the F5-SDK.
     """
+
     properties = dict(timeout=16, interval=5)
 
     def __eq__(self, compare):
+        """Check the equality of the two objects.
+
+        Do a straight data-to-data comparison.
+        """
         myself = self._data
 
         if isinstance(compare, Monitor):
@@ -44,19 +49,21 @@ class Monitor(Resource):
         return myself == compare
 
     def __init__(self, name, partition, **kwargs):
+        """Initialize the Monitor object."""
         super(Monitor, self).__init__(name, partition)
 
         for key, value in self.properties.items():
             self._data[key] = kwargs.get(key, value)
 
     def __str__(self):
+        """Generate a string representation of the object."""
         return("Monitor(partition: {}, name: {}, type: {})".format(
             self._data['partition'], self._data['name'], type(self)))
 
     def _uri_path(self, bigip):
-        """Returns the bigip object instance's reference to the monitor object
+        """Return the URI path of the BIG-IP object.
 
-        This method takes in a bigip and returns the uri reference for managing
-        the monitor object via the F5-SDK on the BIG-IP
+        Not implemented because the current implementation only
+        manages Monitor sub-classes.
         """
         raise NotImplementedError("No default monitor implemented")

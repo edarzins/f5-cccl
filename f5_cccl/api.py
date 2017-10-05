@@ -69,7 +69,7 @@ class F5CloudServiceManager(object):
         :param services: A serializable object that defines one or more
         services. Its schema is defined by cccl-api-schema.json.
 
-        :return: True if successful, otherwise an exception is thrown.
+        :return: Number of resources that were not successfully deployed.
         """
         return self._service_manager.apply_config(services)
 

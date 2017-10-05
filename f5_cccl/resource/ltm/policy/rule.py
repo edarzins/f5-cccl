@@ -31,7 +31,8 @@ LOGGER = logging.getLogger(__name__)
 
 @total_ordering
 class Rule(Resource):
-    """L7 Rule class"""
+    """L7 Rule class for managing configuration on BIG-IP."""
+
     # The property names class attribute defines the names of the
     # properties that we wish to compare.
     properties = dict(
@@ -80,6 +81,7 @@ class Rule(Resource):
         return True
 
     def __str__(self):
+        """Return the URI path of the BIG-IP object."""
         return str(self._data)
 
     def __lt__(self, other):

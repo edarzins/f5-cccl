@@ -28,11 +28,12 @@ LOGGER = logging.getLogger(__name__)
 
 
 class PoolMember(Resource):
-    u"""PoolMember class for deploying configuration on BIG-IP?
+    u"""PoolMember class for deploying configuration on BIG-IP.
 
     Encapsulate an PoolMember configuration object as defined by BIG-IP
     into a dictionary
     """
+
     # The property names class attribute defines the names of the
     # properties that we wish to compare.
     properties = dict(name=None,
@@ -56,6 +57,7 @@ class PoolMember(Resource):
             self._data[key] = properties.get(key, value)
 
     def __hash__(self):  # pylint: disable=useless-super-delegation
+        """Create a hash value for the object."""
         return super(PoolMember, self).__hash__()
 
     def __eq__(self, other):
@@ -99,6 +101,7 @@ class PoolMember(Resource):
         return name
 
     def _uri_path(self, bigip):
+        """Return the URI path of the BIG-IP object."""
         if not self._pool:
             LOGGER.error(
                 "Performing REST operation on pool member not supported.")
@@ -118,11 +121,13 @@ class PoolMember(Resource):
 
 class IcrPoolMember(PoolMember):
     """PoolMember instantiated from iControl REST pool member object."""
+
     pass
 
 
 class ApiPoolMember(PoolMember):
     """PoolMember instantiated from F5 CCCL schema input."""
+
     def __init__(self, name, partition, pool=None, **properties):
         u"""Create a PoolMember instance from CCCL PoolMemberType.
 

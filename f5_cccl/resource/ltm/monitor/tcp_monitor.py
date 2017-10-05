@@ -29,33 +29,34 @@ LOGGER = logging.getLogger(__name__)
 
 
 class TCPMonitor(Monitor):
-    """Creates a CCCL BIG-IP TCP Monitor Object of sub-type of Resource
+    """Creates a CCCL BIG-IP TCP Monitor Object of sub-type of Resource.
 
     This object hosts the ability to orchestrate basic CRUD actions against a
     BIG-IP TCP Monitor via the F5-SDK.
 
     The major difference is the afforded schema for TCP specifically.
     """
+
     properties = dict(interval=5, recv="", send="", timeout=16)
 
     def __init__(self, name, partition, **kwargs):
+        """Create a TCPMonitor instance."""
         super(TCPMonitor, self).__init__(name, partition, **kwargs)
         for key in ['send', 'recv']:
             self._data[key] = kwargs.get(key, self.properties.get(key))
 
     def _uri_path(self, bigip):
-        """Get the URI resource path key for the F5-SDK for TCP monitor
-
-        This is the URI reference for an TCP Monitor.
-        """
+        """Return the URI path of the BIG-IP object."""
         return bigip.tm.ltm.monitor.tcps.tcp
 
 
 class ApiTCPMonitor(TCPMonitor):
     """Create the canonical TCP monitor from API input."""
+
     pass
 
 
 class IcrTCPMonitor(TCPMonitor):
     """Create the canonical TCP monitor from API input."""
+
     pass

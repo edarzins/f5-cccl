@@ -67,14 +67,15 @@ class ServiceConfigValidator(object):
     Optionally accepts an alternate json or yaml schema to validate against.
 
     """
+
     def __init__(self, schema=DEFAULT_SCHEMA):
         """Choose schema and initialize extended Draft4Validator.
 
         Raises:
             F5CcclSchemaError: Failed to read or validate the CCCL
             API schema file.
-        """
 
+        """
         try:
             self.schema = read_yaml_or_json(schema)
         except json.JSONDecodeError as error:
@@ -98,7 +99,7 @@ class ServiceConfigValidator(object):
             raise cccl_exc.F5CcclSchemaError("Invalid API schema")
 
     def __set_defaults(self, validator, properties, instance, schema):
-        """Helper function to simply return when setting defaults."""
+        """Simply return when setting defaults."""
         for item, subschema in properties.items():
             if "default" in subschema:
                 instance.setdefault(item, subschema["default"])

@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""Wrapper functions for custom-profile mgmt via the f5-sdk"""
+"""Wrapper functions for custom-profile mgmt via the f5-sdk."""
 
 import logging
 import os
@@ -140,6 +140,7 @@ def delete_unused_ssl_profiles(mgmt, partition, config):
 
 
 def _delete_ssl_profiles(config, profiles):
+    """Delete SSL Profilesin list."""
     incomplete = 0
 
     if 'customProfiles' not in config:

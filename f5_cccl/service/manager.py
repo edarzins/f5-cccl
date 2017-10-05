@@ -339,6 +339,7 @@ class ServiceManager(object):
         Raises:
             F5CcclError: Error initializing the validator or reading the
             API schema.
+
         """
         self._partition = partition
         self._config_validator = ServiceConfigValidator(schema)
@@ -351,6 +352,7 @@ class ServiceManager(object):
 
     def apply_config(self, service_config):
         """Apply the desired service configuration.
+
         Args:
             service_config: The desired configuration state of the mananged
             partition.
@@ -361,8 +363,8 @@ class ServiceManager(object):
         Raises:
             F5CcclValidationError: Indicates that the service_configuration
             does not conform to the API schema.
-        """
 
+        """
         LOGGER.debug("apply_config start")
         start_time = time()
 

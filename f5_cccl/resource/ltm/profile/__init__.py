@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""This module implements the F5 CCCL Profile class."""
+"""This module implements the F5 CCCL LTM Profile class."""
 
 
 from .profile import Profile  # noqa: F401

@@ -29,7 +29,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Policy(Resource):
-    """L7 Policy class."""
+    """L7 Policy class for managing configuration on BIG-IP."""
+
     # The property names class attribute defines the names of the
     # properties that we wish to compare.
     properties = dict(
@@ -40,7 +41,7 @@ class Policy(Resource):
     )
 
     def __init__(self, name, partition, **data):
-        """Create the policy and nested class objects"""
+        """Create the policy and nested class objects."""
         super(Policy, self).__init__(name, partition)
 
         # Get the rules.
@@ -61,7 +62,7 @@ class Policy(Resource):
         """Check the equality of the two objects.
 
         Only compare the properties as defined in the
-        properties class dictionany.
+        properties class dictionary.
         """
         if not isinstance(other, Policy):
             return False
@@ -79,6 +80,7 @@ class Policy(Resource):
         return True
 
     def __str__(self):
+        """Return the URI path of the BIG-IP object."""
         return str(self._data)
 
     def _create_rules(self, rules):
@@ -99,8 +101,10 @@ class Policy(Resource):
 
 
 class IcrPolicy(Policy):
-    """Policy object created from the iControl REST object"""
+    """Policy object created from the iControl REST object."""
+
     def __init__(self, name, partition, **data):
+        """Create the policy and nested class objects."""
         policy_data = self._flatten_policy(data)
         super(IcrPolicy, self).__init__(name, partition, **policy_data)
 
@@ -200,5 +204,6 @@ class IcrPolicy(Policy):
 
 
 class ApiPolicy(Policy):
-    """Policy object created from the API configuration object"""
+    """Policy object created from the API configuration object."""
+
     pass

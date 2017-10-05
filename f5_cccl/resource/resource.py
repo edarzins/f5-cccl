@@ -87,15 +87,19 @@ class Resource(object):
         return self._data == resource.data
 
     def __ne__(self, resource):
+        """Compare two resources for inequality."""
         return not self.__eq__(resource)
 
     def __hash__(self):
+        """Create a hash value for the object."""
         return hash((self.name, self.partition))
 
     def __lt__(self, resource):
+        """Define comparison operator for sorting."""
         return self.full_path() < resource.full_path()
 
     def __str__(self):
+        """Generate a string representation of the object."""
         return str(self._data)
 
     def create(self, bigip):
@@ -114,6 +118,7 @@ class Resource(object):
 
             F5CcclResourceConflictError: resouce cannot be created because
             it already exists on the BIG-IP
+
         """
         LOGGER.info("Creating %s: /%s/%s",
                     self.classname(), self.partition, self.name)
@@ -140,6 +145,7 @@ class Resource(object):
         Raises:
             F5CcclResourceNotFoundError: resouce cannot be loaded because
             it does not exist on the BIG-IP
+
         """
         LOGGER.info("Loading %s: /%s/%s",
                     self.classname(), self.partition, self.name)
@@ -174,6 +180,7 @@ class Resource(object):
 
             F5CcclResourceNotFoundError: resouce cannot be updated because
             it does not exist on the BIG-IP
+
         """
         LOGGER.info("Updating %s: /%s/%s",
                     self.classname(), self.partition, self.name)
@@ -208,6 +215,7 @@ class Resource(object):
 
             F5CcclResourceNotFoundError: resouce cannot be deleted because
             it already exists on the BIG-IP
+
         """
         LOGGER.info("Deleting %s: /%s/%s",
                     self.classname(), self.partition, self.name)

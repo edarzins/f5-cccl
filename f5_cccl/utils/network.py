@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""Wrapper functions for the f5-sdk network config"""
+"""Wrapper functions for the f5-sdk network config."""
 
 import logging
 try:
@@ -137,7 +137,7 @@ def _extract_partition_and_name(f5_partition_name):
 
 
 def _log_sequence(prefix, sequence_to_log):
-    """Helper function to log a sequence.
+    """Log a sequence.
 
     Dump a sequence to the logger, skip if it is empty
 

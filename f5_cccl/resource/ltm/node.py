@@ -45,6 +45,10 @@ class Node(Resource):
             self._data[key] = properties.get(key, value)
 
     def __eq__(self, other):
+        """Check the equality of the two objects.
+
+        Compare name, partition, and address.
+        """
         if not isinstance(other, Node):
             LOGGER.warning(
                 "Invalid comparison of Node object with object "
@@ -66,12 +70,15 @@ class Node(Resource):
         return False
 
     def __hash__(self):  # pylint: disable=useless-super-delegation
+        """Create a hash value for the object."""
         return super(Node, self).__hash__()
 
     def _uri_path(self, bigip):
+        """Return the URI path of the BIG-IP object."""
         return bigip.tm.ltm.nodes.node
 
     def update(self, bigip, data=None, modify=False):
+        """Perform an update of the object on BIG-IP."""
         # 'address' is immutable, don't pass it in an update operation
         tmp_data = deepcopy(data) if data is not None else deepcopy(self.data)
         tmp_data.pop('address', None)

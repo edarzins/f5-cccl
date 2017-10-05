@@ -116,7 +116,7 @@ class BigIPProxy(object):
             getattr(rsc, 'appService', None) is None
 
     def get_virtual_address_references(self):
-        """The list of virtual addresses to remove from existing config."""
+        """Return list of virtual addresses to remove from existing config."""
         unreferenced = copy(self._virtual_addresses)
         all_virtuals = self._all_virtuals
         referenced = dict()
@@ -359,21 +359,21 @@ class BigIPProxy(object):
             "BIG-IP refresh took %.5f seconds.", (time() - start_time))
 
     def get_virtuals(self, all_virtuals=False):
-        """Return the index of virtual servers."""
+        """Return the index of Virtual Servers."""
         if all_virtuals:
             return self._all_virtuals
 
         return self._virtuals
 
     def get_pools(self, all_pools=False):
-        """Return the index of pools."""
+        """Return the index of Pools."""
         if all_pools:
             return self._all_pools
 
         return self._pools
 
     def get_app_svcs(self):
-        """Return the index of app services."""
+        """Return the index of App Services."""
         return self._iapps
 
     def get_monitors(self, hm_type=None):
@@ -402,7 +402,7 @@ class BigIPProxy(object):
         return self.get_monitors('icmp')
 
     def get_l7policies(self):
-        """Return the index of L7 policies."""
+        """Return the index of L7 Policies."""
         return self._policies
 
     def get_iapps(self):
@@ -410,11 +410,11 @@ class BigIPProxy(object):
         return self._iapps
 
     def get_nodes(self):
-        """Return the index of nodes."""
+        """Return the index of Nodes."""
         return self._nodes
 
     def get_virtual_addresses(self):
-        """Return the index of virtual_addresses."""
+        """Return the index of Virtual Addresses."""
         return self._virtual_addresses
 
     def get_irules(self):
@@ -422,5 +422,5 @@ class BigIPProxy(object):
         return self._irules
 
     def get_internal_data_groups(self):
-        """Return the index of internal data_groups."""
+        """Return the index of Internal Data Groups."""
         return self._internal_data_groups

@@ -32,21 +32,29 @@ class Profile(Resource):
                       context="all")
 
     def __init__(self, name, partition, **properties):
-        """Create a Virtual server instance."""
+        """Create a Profile instance."""
         super(Profile, self).__init__(name, partition)
         self._data['context'] = properties.get('context', "all")
 
     def __eq__(self, other):
+        """Check the equality of the two objects.
+
+        Do a data-to-data comparison as implemented in Resource.
+        """
         if not isinstance(other, Profile):
             return False
 
         return super(Profile, self).__eq__(other)
 
     def _uri_path(self, bigip):
-        """"""
+        """Return the URI path of the BIG-IP object.
+
+        No implementation
+        """
         raise NotImplementedError
 
     def __repr__(self):
+        """Represent the profile."""
         return 'Profile(%r, %r, context=%r)' % (self._data['name'],
                                                 self._data['partition'],
                                                 self._data['context'])

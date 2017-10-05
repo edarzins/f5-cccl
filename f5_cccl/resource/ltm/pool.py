@@ -29,7 +29,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Pool(Resource):
-    u"""Pool class for deploying configuration on BIG-IP"""
+    u"""Pool class for deploying configuration on BIG-IP."""
+
     properties = dict(name=None,
                       partition=None,
                       loadBalancingMode="round-robin",
@@ -57,6 +58,10 @@ class Pool(Resource):
             self.members = list()
 
     def __eq__(self, other):
+        """Check the equality of the two objects.
+
+        Compare data, pool members, and monitors.
+        """
         if not isinstance(other, Pool):
             LOGGER.warning(
                 "Invalid comparison of Pool object with object "
@@ -91,17 +96,21 @@ class Pool(Resource):
         return self_monitor_list == other_monitor_list
 
     def __hash__(self):  # pylint: disable=useless-super-delegation
+        """Create a hash value for the object."""
         return super(Pool, self).__hash__()
 
     def __len__(self):
+        """Return the number of pool members."""
         return len(self.members)
 
     def _uri_path(self, bigip):
+        """Return the URI path of the BIG-IP object."""
         return bigip.tm.ltm.pools.pool
 
 
 class ApiPool(Pool):
     """Parse the CCCL input to create the canonical Pool."""
+
     def __init__(self, name, partition, **properties):
         """Parse the CCCL schema input."""
         pool_config = dict()
@@ -121,7 +130,7 @@ class ApiPool(Pool):
                                       **pool_config)
 
     def _get_members(self, partition, members):
-        """Get a list of members from the pool definition"""
+        """Get a list of members from the pool definition."""
         members_list = list()
         if members:
             for member in members:
@@ -142,15 +151,16 @@ class ApiPool(Pool):
 
 class IcrPool(Pool):
     """Filter the iControl REST input to create the canonical Pool."""
+
     def __init__(self, name, partition, **properties):
-        """Parse the iControl REST representation of the Pool"""
+        """Parse the iControl REST representation of the Pool."""
         members = self._get_members(**properties)
         super(IcrPool, self).__init__(name, partition,
                                       members,
                                       **properties)
 
     def _get_members(self, **properties):
-        """Get a list of members from the pool definition"""
+        """Get a list of members from the pool definition."""
         try:
             members = (
                 properties['membersReference'].get('items', [])

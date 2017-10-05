@@ -52,6 +52,10 @@ class ApplicationService(Resource):
                 self._data[key] = properties.get(key, value)
 
     def __eq__(self, other):
+        """Check the equality of the two objects.
+
+        Compare variables, tables, and data.
+        """
         if not isinstance(other, ApplicationService):
             LOGGER.warning(
                 "Invalid comparison of Application Service object with object "
@@ -78,24 +82,24 @@ class ApplicationService(Resource):
         return True
 
     def __hash__(self):  # pylint: disable=useless-super-delegation
+        """Create a hash value for the object."""
         return super(ApplicationService, self).__hash__()
 
     def _uri_path(self, bigip):
+        """Return the URI path of the BIG-IP object."""
         return bigip.tm.sys.application.services.service
 
     def update(self, bigip, data=None, modify=False):
-        """Update an iApp Application Service.
-
-        Args:
-            bigip (f5.bigip.ManagementRoot): F5 SDK session object
-        """
+        """Perform an update of the object on BIG-IP."""
         self._data['executeAction'] = 'definition'
         super(ApplicationService, self).update(bigip, data=data, modify=modify)
 
 
 class IcrApplicationService(ApplicationService):
     """Parse iControl REST input to create canonical Application Service."""
+
     def __init__(self, name, partition, **properties):
+        """Create an IcrApplicationService instance."""
         super(IcrApplicationService, self).__init__(name,
                                                     partition,
                                                     **properties)
@@ -111,7 +115,9 @@ class IcrApplicationService(ApplicationService):
 
 class ApiApplicationService(ApplicationService):
     """Parse the CCCL input to create the canonical Application Service."""
+
     def __init__(self, name, partition, **properties):
+        """Create an ApiApplicationService instance."""
         super(ApiApplicationService, self).__init__(name,
                                                     partition,
                                                     **properties)

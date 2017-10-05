@@ -26,12 +26,13 @@ LOGGER = logging.getLogger(__name__)
 
 
 def get_record_key(record):
-    """Allows data groups to be sorted by the 'name' member."""
+    """Allow data groups to be sorted by the 'name' member."""
     return record.get('name', '')
 
 
 class InternalDataGroup(Resource):
-    """InternalDataGroup class."""
+    """InternalDataGroup class for managing configuration on BIG-IP."""
+
     # The property names class attribute defines the names of the
     # properties that we wish to compare.
     properties = dict(
@@ -42,7 +43,7 @@ class InternalDataGroup(Resource):
     )
 
     def __init__(self, name, partition, **data):
-        """Create the InternalDataGroup"""
+        """Create the InternalDataGroup."""
         super(InternalDataGroup, self).__init__(name, partition)
 
         self._data['type'] = data.get('type', '')
@@ -53,7 +54,7 @@ class InternalDataGroup(Resource):
         """Check the equality of the two objects.
 
         Only compare the properties as defined in the
-        properties class dictionany.
+        properties class dictionary.
         """
         if not isinstance(other_dg, InternalDataGroup):
             return False
@@ -63,17 +64,22 @@ class InternalDataGroup(Resource):
         return True
 
     def __hash__(self):  # pylint: disable=useless-super-delegation
+        """Create a hash value for the object."""
         return super(InternalDataGroup, self).__hash__()
 
     def _uri_path(self, bigip):
+        """Return the URI path of the BIG-IP object."""
         return bigip.tm.ltm.data_group.internals.internal
 
     def __str__(self):
+        """Generate a string representation of the object."""
         return str(self._data)
 
     def update(self, bigip, data=None, modify=False):
-        """Override of base class implemntation, required because data-groups
-           are picky about what data can exist in the object when modifying.
+        """Perform an update of the object on BIG-IP.
+
+        Override of base class implemntation, required because data-groups
+        are picky about what data can exist in the object when modifying.
         """
         tmp_copy = deepcopy(self)
         tmp_copy.do_update(bigip, data, modify)
@@ -86,10 +92,12 @@ class InternalDataGroup(Resource):
 
 
 class IcrInternalDataGroup(InternalDataGroup):
-    """InternalDataGroup object created from the iControl REST object"""
+    """InternalDataGroup object created from the iControl REST object."""
+
     pass
 
 
 class ApiInternalDataGroup(InternalDataGroup):
-    """InternalDataGroup object created from the API configuration object"""
+    """InternalDataGroup object created from the API configuration object."""
+
     pass

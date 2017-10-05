@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+"""setup script for CCCL installation."""
 
 from pip.req import parse_requirements as parse_reqs
 from setuptools import setup

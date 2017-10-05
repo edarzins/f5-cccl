@@ -95,23 +95,29 @@ class VirtualServer(Resource):
         return destination
 
     def __eq__(self, other):
+        """Check the equality of the two objects.
+
+        Do a data-to-data comparison as implemented in Resource.
+        """
         if not isinstance(other, VirtualServer):
             return False
 
         return super(VirtualServer, self).__eq__(other)
 
     def __hash__(self):  # pylint: disable=useless-super-delegation
+        """Create a hash value for the object."""
         return super(VirtualServer, self).__hash__()
 
     def _uri_path(self, bigip):
+        """Return the URI path of the BIG-IP object."""
         return bigip.tm.ltm.virtuals.virtual
 
 
 class ApiVirtualServer(VirtualServer):
     """Parse the CCCL input to create the canonical Virtual Server."""
+
     def __init__(self, name, partition, **properties):
         """Handle the mutually exclusive properties."""
-
         enabled = properties.pop('enabled', True)
         if not enabled:
             disabled = True
@@ -137,6 +143,7 @@ class ApiVirtualServer(VirtualServer):
 
 class IcrVirtualServer(VirtualServer):
     """Parse the iControl REST input to create the canonical Virtual Server."""
+
     def __init__(self, name, partition, **properties):
         """Remove some of the properties that are not required."""
         self._filter_virtual_properties(**properties)
@@ -152,7 +159,6 @@ class IcrVirtualServer(VirtualServer):
 
     def _filter_virtual_properties(self, **properties):
         """Remove any unneeded properties from the ICR response."""
-
         # Remove the pool reference property in sourceAddressTranslation
         snat_translation = properties.get('sourceAddressTranslation', dict())
         snat_translation.pop('poolReference', None)
