@@ -186,7 +186,9 @@ class VirtualServer(Resource):
             if key == 'vlans' or key == 'policies' or key == 'rules':
                 if sorted(self._data[key]) != \
                         sorted(other.data.get(key, None)):
-                    LOGGER.info("NOTEQUAL: 3")
+                    LOGGER.info("NOTEQUAL: 3 %s", key)
+                    LOGGER.info("SELF : %s", sorted(self._data[key]))
+                    LOGGER.info("OTHER: %s", sorted(other.data.get(key, None)))
                     return False
                 continue
 
