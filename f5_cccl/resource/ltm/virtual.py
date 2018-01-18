@@ -173,17 +173,20 @@ class VirtualServer(Resource):
 
     def __eq__(self, other):
         if not isinstance(other, VirtualServer):
+            LOGGER.info("NOTEQUAL: 1")
             return False
 
         for key in self._data:
             # compare list lengths
             if isinstance(self._data[key], list) and \
                     len(self._data[key]) != len(other.data.get(key, None)):
+                LOGGER.info("NOTEQUAL: 2")
                 return False
 
             if key == 'vlans' or key == 'policies' or key == 'rules':
                 if sorted(self._data[key]) != \
                         sorted(other.data.get(key, None)):
+                    LOGGER.info("NOTEQUAL: 3")
                     return False
                 continue
 
@@ -191,11 +194,13 @@ class VirtualServer(Resource):
                 for profile in self._data[key]:
                     if not self.find_profile(profile,
                                              other.data.get(key, None)):
+                        LOGGER.info("NOTEQUAL: 4")
                         return False
                 continue
 
             # All other types
             if self._data[key] != other.data.get(key, None):
+                LOGGER.info("NOTEQUAL: 5 %s", key)
                 return False
 
         return True
