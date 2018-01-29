@@ -41,6 +41,8 @@ class Monitor(Resource):
         if isinstance(compare, Monitor):
             compare = compare.data
 
+        LOGGER.info('myself  = %s', myself)
+        LOGGER.info('compare = %s', compare)
         return myself == compare
 
     def __init__(self, name, partition, **kwargs):
