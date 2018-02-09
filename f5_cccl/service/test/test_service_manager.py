@@ -42,11 +42,13 @@ from mock import patch
 def ltm_service_manager():
     partition = "test"
     schema = 'f5_cccl/schemas/cccl-ltm-api-schema.yml'
+    user_agent = 'k8s-bigip-ctlr v1.4'
 
     service_mgr = ServiceManager(
         bigip_proxy(),
         partition,
-        schema)
+        schema,
+        user_agent)
 
     return service_mgr
 
@@ -55,11 +57,13 @@ def ltm_service_manager():
 def net_service_manager():
     partition = "test"
     schema = 'f5_cccl/schemas/cccl-net-api-schema.yml'
+    user_agent = 'k8s-bigip-ctlr v1.4'
 
     service_mgr = ServiceManager(
         bigip_proxy(),
         partition,
-        schema)
+        schema,
+        user_agent)
 
     return service_mgr
 
@@ -161,17 +165,17 @@ class TestServiceConfigDeployer:
         return self.get_objects(args[0], obj_type)
 
     def test_create_deployer(self):
-        deployer = ServiceConfigDeployer(self.bigip)
+        deployer = ServiceConfigDeployer(self.bigip, 'controller v1.4.0')
         assert deployer
 
     def test_deploy_ltm(self):
-        deployer = ServiceConfigDeployer(self.bigip)
+        deployer = ServiceConfigDeployer(self.bigip, 'controller v1.4.0')
         tasks_remaining = deployer.deploy_ltm(self.desired_ltm_config,
             self.default_route_domain)
         assert 0 == tasks_remaining
 
     def test_deploy_net(self):
-        deployer = ServiceConfigDeployer(self.bigip)
+        deployer = ServiceConfigDeployer(self.bigip, 'controller v1.4.0')
         tasks_remaining = deployer.deploy_net(self.desired_net_config)
         assert 0 == tasks_remaining
 

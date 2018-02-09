@@ -70,7 +70,8 @@ class F5CloudServiceManager(object):
                                                           ltm_api_schema)
         self._service_manager = ServiceManager(self._bigip_proxy,
                                                partition,
-                                               schema_path)
+                                               schema_path,
+                                               user_agent)
 
     def apply_ltm_config(self, services):
         """Apply LTM service configurations to the BIG-IP partition.

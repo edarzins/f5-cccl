@@ -97,7 +97,7 @@ class Resource(object):
     def __str__(self):
         return str(self._data)
 
-    def create(self, bigip):
+    def create(self, bigip, user_agent):
         u"""Create resource on a BIG-IP system.
 
         The internal data model is applied to the BIG-IP
@@ -116,6 +116,12 @@ class Resource(object):
         """
         LOGGER.info("Creating %s: /%s/%s",
                     self.classname(), self.partition, self.name)
+
+        if user_agent is not None:
+            self._data.update({'metadata': {'container_connector': {'value': user_agent}}})
+            # self._meta_data = {'controller': user_data }
+            # self._meta_data['controller'] = user_data
+            # self._meta_data.update({'controller': user_data})
         try:
             obj = self._uri_path(bigip).create(**self._data)
             return obj
@@ -153,7 +159,7 @@ class Resource(object):
             LOGGER.error("Load FAILED: /%s/%s", self.partition, self.name)
             raise cccl_exc.F5CcclError(str(err))
 
-    def update(self, bigip, data=None, modify=False):
+    def update(self, bigip, user_agent, data=None, modify=False):
         u"""Update a resource (e.g., pool) on a BIG-IP system.
 
         Modifies a resource on a BIG-IP system using attributes
@@ -176,6 +182,10 @@ class Resource(object):
         """
         LOGGER.info("Updating %s: /%s/%s",
                     self.classname(), self.partition, self.name)
+
+        if user_agent is not None:
+            self._data.update({'metadata': {'container_connector': {'value': user_agent}}})
+
         if not data:
             data = self._data
         try:

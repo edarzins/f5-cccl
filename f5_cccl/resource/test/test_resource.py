@@ -116,7 +116,7 @@ def test_create_resource(bigip):
     res = Resource(name=data['name'], partition=data['partition'])
 
     with pytest.raises(NotImplementedError):
-        res.create(bigip)
+        res.create(bigip, 'k8s-bigip-ctlr v1.4')
 
 
 def test_resource_equal():
@@ -209,7 +209,7 @@ def test_update_resource(bigip):
     res = Resource(name=data['name'], partition=data['partition'])
 
     with pytest.raises(NotImplementedError):
-        res.update(bigip)
+        res.update(bigip, 'controller v1.4.0')
 
 
 def test_set_name():
@@ -250,7 +250,7 @@ def test_create_subresource(bigip):
     bigip.tm.ltm.subresources.subresource.create.return_value = (
         bigip.tm.ltm.subresources.subresource)
 
-    obj = subres.create(bigip)
+    obj = subres.create(bigip, 'controller v1.4.0')
 
     assert obj == bigip.tm.ltm.subresources.subresource
 
@@ -266,7 +266,7 @@ def test_update_subresource(bigip):
     bigip.tm.ltm.subresources.subresource.load.return_value = (
         bigip.tm.ltm.subresources.subresource.obj
     )
-    obj = subres.update(bigip)
+    obj = subres.update(bigip, 'controller v1.4.0')
 
     assert not obj
     bigip.tm.ltm.subresources.subresource.load.assert_called()
@@ -282,7 +282,7 @@ def test_modify_subresource(bigip):
     bigip.tm.ltm.subresources.subresource.load.return_value = (
         bigip.tm.ltm.subresources.subresource.obj
     )
-    obj = subres.update(bigip, data=data, modify=True)
+    obj = subres.update(bigip, 'controller v1.4.0', data=data, modify=True)
 
     assert not obj
     bigip.tm.ltm.subresources.subresource.load.assert_called()
@@ -314,7 +314,7 @@ def test_create_subresource_sdk_exception(bigip):
     )
 
     with pytest.raises(cccl_exc.F5CcclResourceCreateError):
-        obj = subres.create(bigip)
+        obj = subres.create(bigip, 'controller v1.4.0')
 
         assert not obj
 
@@ -330,7 +330,7 @@ def test_create_subresource_icontrol_409_exception(bigip, response):
     )
 
     with pytest.raises(cccl_exc.F5CcclResourceConflictError):
-        obj = subres.create(bigip)
+        obj = subres.create(bigip, 'controller v1.4.0')
 
         assert not obj
 
@@ -346,7 +346,7 @@ def test_create_subresource_icontrol_4XX_exception(bigip, response):
     )
 
     with pytest.raises(cccl_exc.F5CcclError):
-        obj = subres.create(bigip)
+        obj = subres.create(bigip, 'controller v1.4.0')
 
         assert not obj
 
@@ -362,7 +362,7 @@ def test_create_subresource_icontrol_500_exception(bigip, response):
     )
 
     with pytest.raises(cccl_exc.F5CcclError):
-        obj = subres.create(bigip)
+        obj = subres.create(bigip, 'controller v1.4.0')
 
         assert not obj
 
@@ -394,7 +394,7 @@ def test_update_subresource_sdk_exception(bigip):
     )
 
     with pytest.raises(cccl_exc.F5CcclResourceUpdateError):
-        subres.update(bigip)
+        subres.update(bigip, 'controller v1.4.0')
 
 
 def test_update_subresource_icontrol_404_exception(bigip, response):
@@ -412,7 +412,7 @@ def test_update_subresource_icontrol_404_exception(bigip, response):
     )
 
     with pytest.raises(cccl_exc.F5CcclResourceNotFoundError):
-        subres.update(bigip)
+        subres.update(bigip, 'controller v1.4.0')
 
     bigip.tm.ltm.subresources.subresource.update.assert_not_called()
 
@@ -431,7 +431,7 @@ def test_update_subresource_icontrol_4XX_exception(bigip, response):
     )
 
     with pytest.raises(cccl_exc.F5CcclResourceRequestError):
-        obj = subres.update(bigip)
+        obj = subres.update(bigip, 'controller v1.4.0')
 
         assert not obj
 

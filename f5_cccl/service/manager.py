@@ -41,9 +41,10 @@ class ServiceConfigDeployer(object):
 
     first_pass = True
 
-    def __init__(self, bigip_proxy):
+    def __init__(self, bigip_proxy, user_agent):
         """Initialize the config deployer."""
         self._bigip = bigip_proxy
+        self._user_agent = user_agent
 
     def _get_resource_tasks(self, existing, desired):
         """Get the list of resources to create, delete, update."""
@@ -69,7 +70,7 @@ class ServiceConfigDeployer(object):
         for resource in create_list:
             try:
                 start_time = time()
-                resource.create(self._bigip.mgmt_root())
+                resource.create(self._bigip.mgmt_root(), self._user_agent)
                 LOGGER.debug("Created %s in %.5f seconds.",
                              resource.name, (time() - start_time))
             except exc.F5CcclResourceConflictError:
@@ -93,7 +94,7 @@ class ServiceConfigDeployer(object):
         for resource in update_list:
             try:
                 start_time = time()
-                resource.update(self._bigip.mgmt_root())
+                resource.update(self._bigip.mgmt_root(), self._user_agent)
                 LOGGER.debug("Updated %s in %.5f seconds.",
                              resource.name, (time() - start_time))
             except exc.F5CcclResourceNotFoundError as e:
@@ -474,7 +475,7 @@ class ServiceConfigDeployer(object):
 class ServiceManager(object):
     """CCCL apply config implementation class."""
 
-    def __init__(self, bigip_proxy, partition, schema):
+    def __init__(self, bigip_proxy, partition, schema, user_agent):
         """Initialize the ServiceManager.
 
         Args:
@@ -482,6 +483,7 @@ class ServiceManager(object):
             partition: The managed partition.
             schema: Schema that defines the structure of a service
             configuration.
+            user_agent: Identifier for CCCL client
 
         Raises:
             F5CcclError: Error initializing the validator or reading the
@@ -490,7 +492,7 @@ class ServiceManager(object):
         self._partition = partition
         self._bigip = bigip_proxy
         self._config_validator = ServiceConfigValidator(schema)
-        self._service_deployer = ServiceConfigDeployer(bigip_proxy)
+        self._service_deployer = ServiceConfigDeployer(bigip_proxy, user_agent)
         self._config_reader = ServiceConfigReader(self._partition)
 
     def get_partition(self):

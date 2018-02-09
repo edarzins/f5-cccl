@@ -413,7 +413,7 @@ class MockService():
         return MockService()
 
     def create(self, name=None, template=None, partition=None, variables=None,
-               tables=None, trafficGroup=None, description=None):
+               tables=None, trafficGroup=None, description=None, **kwargs):
         """Create a mock iapp."""
         pass
 
